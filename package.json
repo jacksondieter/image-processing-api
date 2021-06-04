@@ -9,6 +9,7 @@
     "start": "nodemon",
     "build": "tsc",
     "test": "jasmine-ts --config=jasmine.json",
+    "test-watch": "nodemon --ext ts --exec 'yarn test'",
     "prettier": "prettier --config .prettierrc.json --write src/**/*.ts",
     "prepare": "husky install"
   },
