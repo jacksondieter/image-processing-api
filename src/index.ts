@@ -1,9 +1,10 @@
 import express, { Application } from 'express'
 import logger from './utilities/logger'
 import { api, home, notFound } from './routes/index'
+import { PORT } from '../config/index'
 
 const app: Application = express()
-const port = 3000
+const port = PORT
 const serverLog = () => {
   console.log(`Server listening on port ${port}`)
 }

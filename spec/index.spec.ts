@@ -26,7 +26,6 @@ describe('Test image endpoints', () => {
   it('gets the image endpoint', async () => {
     const response = await req.get('/api/images')
     expect(response.status).toBe(404)
-    expect(response.text).toBe('no filename')
   })
 
   it('gets error with image', async () => {

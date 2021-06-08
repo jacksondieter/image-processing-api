@@ -8,7 +8,7 @@ export async function asyncController (req: Request, res: Response, next: NextFu
   const image = (new Filename(filename, width, heigth, extension as keyof FormatEnum)).createImg()
   try {
     await isFile(image.outputName)
-    console.log('file exists')
+    console.log('File accessed')
     res.type(image.ext).sendFile(image.outputName)
   } catch (e) {
     try {
@@ -16,10 +16,10 @@ export async function asyncController (req: Request, res: Response, next: NextFu
       await convert(image.inputName, image.width, image.heigth, image.outputName, image.ext)
       res.type(image.ext).sendFile(image.outputName)
     } catch (e) {
-      console.log('image dont exist')
+      console.log('Image dont exist')
       res
         .status(404)
-        .send('image dont exist')
+        .send('Image dont exist')
     }
   }
 }
@@ -28,10 +28,10 @@ export function middleWare (req: Request, res: Response, next: NextFunction) {
   req.parsed = parseObject(req.query)
   const filename = req.parsed?.filename
   if (!filename || !req.parsed) {
-    console.log('no filename')
+    console.log('No filename provided')
     res
       .status(404)
-      .send('no filename')
+      .send('404 Error')
   } else {
     next()
   }

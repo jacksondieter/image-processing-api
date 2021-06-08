@@ -34,4 +34,13 @@ describe('Files test', () => {
     const file = await isFile(path)
     expect(file).toBeTrue()
   })
+  it('should not exist the file...', async () => {
+    const path = getPath('data/images', 'inputs.jpg')
+    try {
+      const file = await isFile(path)
+      expect(file).toBeFalse()
+    } catch (e) {
+      expect(e).toBeTruthy()
+    }
+  })
 })
