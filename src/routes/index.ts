@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express'
-
+import imagesRouter from './api/images.router'
 const api = Router()
 
 api
@@ -8,15 +8,18 @@ api
     res.send('api working')
   })
 
+api.use('/images', imagesRouter)
+
 const home = Router()
 home
   .route('/')
   .get((req, res) => {
-    res.status(200).send('working')
+    res.status(200).send('Home')
   })
 
 const notFound = function (req:Request, res:Response, next:Function) {
-  res.status(404)
-  res.send('404: File Not Found')
+  res
+    .status(404)
+    .send('404 Error')
 }
 export { api, home, notFound }
