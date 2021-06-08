@@ -10,7 +10,15 @@ Open the terminal and run following command:
 
 ### `cd image-processing-api`
 ### `yarn install`
+
+For start:
 ### `yarn serve`
+
+For build:
+### `yarn build`
+
+For test:
+### `yarn test`
 
 
 ### Build width
