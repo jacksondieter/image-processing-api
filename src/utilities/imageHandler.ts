@@ -1,5 +1,6 @@
-import { FormatEnum } from 'sharp'
-import { getPath } from '../src/utilities/files'
+import sharp, { FormatEnum } from 'sharp'
+import { promises as fs } from 'fs'
+import path from 'path'
 
 interface ImageFile {
   inputName: string;
@@ -9,7 +10,30 @@ interface ImageFile {
   heigth: number;
 }
 
-export default class Filename {
+export const getPath = (root: string, filename: string): string => path.join(root, filename)
+
+export const getFullPath = (file: string) => path.resolve(file)
+
+export const isFile = async (file: string) => {
+  const isFile = await (await fs.stat(file))
+  return isFile.isFile()
+}
+
+export async function convert (fileName: string, width: number, heigth: number, output:string, format: keyof FormatEnum = 'jpg') {
+  console.log(`Converting ${path.basename(fileName)}...`)
+  try {
+    await sharp(fileName)
+      .resize(width, heigth)
+      .toFormat(format)
+      .toFile(output)
+    console.log('Conversion succeed')
+    return true
+  } catch (e) {
+    console.log('Conversion failed')
+  }
+}
+
+export class Filename {
   private extint: keyof FormatEnum = 'jpg'
   private rootInput: string = 'data/images'
   private rootOutput: string = 'data/thumbs'
@@ -31,13 +55,15 @@ export default class Filename {
 
   getInputName (): string {
     const filename: string = [this.name, '.', this.extint].join('')
-    const fullPath: string = getPath(this.rootInput, filename)
+    const relPath: string = getPath(this.rootInput, filename)
+    const fullPath = getFullPath(relPath)
     return fullPath
   }
 
   getOutputName (): string {
     const filename: string = [this.name, 'w', this.width, 'h', this.heigth, '.', this.ext].join('')
-    const fullPath: string = getPath(this.rootOutput, filename)
+    const relPath: string = getPath(this.rootOutput, filename)
+    const fullPath = getFullPath(relPath)
     return fullPath
   }
 
