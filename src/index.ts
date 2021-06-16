@@ -1,18 +1,17 @@
 import express, { Application } from 'express'
-import logger from './utilities/logger'
-import { api, home, notFound } from './routes/index'
-import { PORT } from '../config/index'
+import { api, home, notFound } from './api/index'
+import { PORT } from './config/index'
+import morgan from 'morgan'
 
 const app: Application = express()
-const port = PORT
 const serverLog = () => {
-  console.log(`Server listening on port ${port}`)
+  console.log(`Server listening on port ${PORT}`)
 }
 
-app.use(logger)
+app.use(morgan('dev'))
 app.use('/api', api)
 app.use('/', home)
 app.use('*', notFound)
-app.listen(port, serverLog)
+app.listen(PORT, serverLog)
 
 export default app

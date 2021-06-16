@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express'
-import imagesRouter from './api/images.router'
+import imagesRouter from './routes/images.router'
 const api = Router()
 
 api
@@ -17,7 +17,7 @@ home
     res.status(200).send('Home')
   })
 
-const notFound = function (req:Request, res:Response, next:Function) {
+const notFound = (req:Request, res:Response):void => {
   res
     .status(404)
     .send('404 Error')
