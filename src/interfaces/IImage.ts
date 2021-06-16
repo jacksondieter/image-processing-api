@@ -1,18 +1,16 @@
-import { FormatEnum } from 'sharp';
-
-
+import { FormatEnum } from 'sharp'
 export interface ImageFile {
-  inputName: string;
-  outputName: string;
-  ext: keyof FormatEnum;
-  width: number;
-  height: number;
+  inputName: string
+  outputName: string
+  ext: keyof FormatEnum
+  width: number
+  height: number
 }
 
 export interface ImageResponse {
-  error?: string;
+  error?: string
   data?: {
-    ext: string;
-    filename: string;
-  };
+    ext: string
+    filename: string
+  }
 }

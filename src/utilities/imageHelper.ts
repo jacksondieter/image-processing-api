@@ -1,10 +1,9 @@
 import sharp, { FormatEnum } from 'sharp'
-import { promises as fs } from 'fs'
-import path from 'path'
 import { DIR_IN, DIR_OUT, EXTENSION } from '../config/index'
 import { ImageFile } from '../interfaces/IImage'
+import { checkDir, writeFile, getPath, getFullPath } from './fileHelper'
 
-export function safeAwait(promise: Promise<unknown>, message: string): Promise<{ data?: unknown, error?: string }> {
+export function safeAwait(promise: Promise<unknown>, message: string): Promise<{ data?: unknown; error?: string }> {
   return promise
     .then((data) => ({ data }))
     .catch(() => {
@@ -13,45 +12,24 @@ export function safeAwait(promise: Promise<unknown>, message: string): Promise<{
     })
 }
 
-export const getPath = (root: string, filename: string): string => path.join(root, filename)
-
-export const getFullPath = (file: string): string => path.resolve(file)
-
-export const isFile = async (file: string): Promise<boolean> => {
-  const exists = (await fs.stat(file)).isFile()
-  return exists
-}
-
-async function checkDir(dir: string) {
-  try {
-    const exists = (await fs.stat(dir)).isDirectory()
-    return exists
-  } catch (e) {
-    console.log('Make dir succeed')
-    await fs.mkdir(dir)
-    return true
-  }
-}
-async function writeFile(data: Buffer, filename: string): Promise<{ data?: boolean, error?: string }> {
-  try {
-    await fs.writeFile(filename, data)
-    console.log('Writing file succeed')
-    return { data: true }
-  } catch (error) {
-    return { error: 'Writing file failed' }
-  }
-}
-
-export async function convert(fileName: string, width: number, height: number, format: keyof FormatEnum): Promise<Buffer> {
-  const file = await sharp(fileName)
-    .resize(width, height)
-    .toFormat(format)
-    .toBuffer()
+export async function convert(
+  fileName: string,
+  width: number,
+  height: number,
+  format: keyof FormatEnum
+): Promise<Buffer> {
+  const file = await sharp(fileName).resize(width, height).toFormat(format).toBuffer()
   return file
 }
 
-export async function convertion(fileName: string, width: number, height: number, output: string, format: keyof FormatEnum = 'jpg'): Promise<{ error?: string , data?: boolean}> {
-  console.log(`Converting ${path.basename(fileName)}...`)
+export async function convertion(
+  fileName: string,
+  width: number,
+  height: number,
+  output: string,
+  format: keyof FormatEnum = 'jpg'
+): Promise<{ error?: string; data?: boolean }> {
+  console.log('Converting image...')
   await checkDir(DIR_OUT)
   const { error: convError, data } = await safeAwait(convert(fileName, width, height, format), 'conversion failed')
   if (convError) return { error: convError }
@@ -101,7 +79,7 @@ export class Filename {
       outputName: this.output,
       ext: this.ext,
       width: this.width,
-      height: this.height
+      height: this.height,
     }
     return image
   }

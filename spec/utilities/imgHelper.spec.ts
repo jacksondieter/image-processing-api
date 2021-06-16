@@ -1,7 +1,8 @@
-import { convert, Filename, getPath, isFile } from '../../src/utilities/imageHelper'
+import { convert, Filename } from '../../src/utilities/imageHelper'
+import { getPath, isFile } from '../../src/utilities/fileHelper'
 
-const fileTrue = (new Filename('input')).createImg()
-const fileFalse = (new Filename('inputs')).createImg()
+const fileTrue = new Filename('input').createImg()
+const fileFalse = new Filename('inputs').createImg()
 describe('Image testing', () => {
   it('should throw error', async () => {
     try {
