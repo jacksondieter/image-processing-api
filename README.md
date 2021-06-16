@@ -20,7 +20,26 @@ For build:
 For test:
 ### `yarn test`
 
+For development:
+### `yarn start`
 
+For formating:
+### `yarn prettier`
+
+For lint:
+### `yarn lint`
+
+## API Endpoints 
+`<host:port>/api`
+#### Images
+`<host:port>/api/images`
+
+##### paramenters
+`<host:port>/api/images?`
+- filename > `string [required]`
+- width > `number`
+- height > `number`
+- extension > `string [optional] `
 ### Build width
 This project was created with 
 - [Express](http://expressjs.com/)
