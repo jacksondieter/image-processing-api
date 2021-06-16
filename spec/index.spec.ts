@@ -36,5 +36,6 @@ describe('Test image endpoints', () => {
   it('gets image', async () => {
     const response = await req.get('/api/images?filename=input')
     expect(response.status).toBe(200)
+    expect(response.type).toBe('image/jpeg')
   })
 })
